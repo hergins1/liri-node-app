@@ -6,7 +6,7 @@ const fs = require("fs");
 const axios = require("axios");
 const nodeArgs = process.argv;
 const userInput = "";
-nodeArgs.splice(0, 2);
+nodeArgs.splice(0, 3);
 
 for (const i = 0; i < nodeArgs.length; i++){
     if (i > 0 && i < nodeArgs.length){
@@ -16,5 +16,3 @@ for (const i = 0; i < nodeArgs.length; i++){
         userInput += nodeArgs[i]
     }
 }
-
-
