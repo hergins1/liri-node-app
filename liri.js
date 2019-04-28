@@ -1,18 +1,33 @@
 require("dotenv").config();
-
-const keys = require("./keys.js");
-const spotify = new Spotify(keys.spotify);
 const fs = require("fs");
 const axios = require("axios");
-const nodeArgs = process.argv;
-const userInput = "";
-nodeArgs.splice(0, 3);
+const keys = require("./keys.js");
+const moment = require("moment");
+// const spotify = new Spotify(keys.spotify);
 
-for (const i = 0; i < nodeArgs.length; i++){
-    if (i > 0 && i < nodeArgs.length){
-        userInput = userInput + "+" + nodeArgs[i];
-    }
-    else{
-        userInput += nodeArgs[i]
-    }
+const command = process.argv[2];
+const searchTerm = process.argv.slice(3).join(" ");
+
+
+switch (command){
+    case "concert-this" :
+        const queryUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
+            axios
+               .get(queryUrl)
+                    .then(function(response){
+                       const returnData = response.data[0];
+                       console.log(moment(returnData.datetime).format('MMMM Do YYYY, h:mm:ss a'));
+                        console.log(returnData.venue.name);
+                        console.log(returnData.venue.city);                        
+                    })
+    break;
+    case "spotify-this-song":
+    break;
+    case "movie-this":
+    break;
+    case "do-what-it-says":
+    break;
+    default:
+        console.log("Does not compute!");
 }
+
