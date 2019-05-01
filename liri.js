@@ -6,8 +6,8 @@ const moment = require("moment");
 const Spotify = require("node-spotify-api");
 const spotify = new Spotify(keys.spotify);
 
-const command = process.argv[2];
-const searchTerm = process.argv.slice(3).join(" ");
+let command = process.argv[2];
+let searchTerm = process.argv.slice(3).join(" ");
 
 function concertThis() {
     const queryUrl = "https://rest.bandsintown.com/artists/" + searchTerm + "/events?app_id=codingbootcamp";
@@ -55,6 +55,8 @@ function spotifyThis() {
             })
 };
 
+function runCommand(){
+
 switch (command) {
     case "concert-this":
         concertThis()
@@ -70,10 +72,15 @@ switch (command) {
             if (error) {
                 return console.log(error);
             }
-            const dataArr = data.split(",").join(" ");
-            console.log(dataArr);
+            const dataArr = data.split(",");
+            console.log(dataArr[1]);
+            command = dataArr[0];
+            searchTerm = dataArr[1];
+            runCommand();
         })
         break;
     default:
         console.log("Does not compute!");
+};
 }
+runCommand();
